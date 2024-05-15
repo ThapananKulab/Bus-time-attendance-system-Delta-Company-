@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "../Components/Home.jsx";
-import Signin from "../Components/Sigin.jsx";
+import Home from "../components/Home.jsx";
+import Signin from "../components/Sigin.jsx";
 
 const App = () => {
   return (
