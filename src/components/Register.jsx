@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = createTheme();
 
@@ -34,9 +36,10 @@ export default function Register() {
         formData
       );
       console.log(response.data);
-      // Handle successful registration (e.g., navigate to login page or display a success message)
+      toast.success("เพิ่ม username สำเร็จ !");
     } catch (error) {
       console.error("There was an error registering the user!", error);
+      toast.error("รหัสผ่านผิด");
     }
   };
 
@@ -116,6 +119,7 @@ export default function Register() {
             </Grid>
           </Box>
         </Box>
+        <ToastContainer />
       </Container>
     </ThemeProvider>
   );
