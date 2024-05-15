@@ -30,7 +30,7 @@ export default function Register() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/register",
+        "https://api-work-io-demo.vercel.app/register",
         formData
       );
       console.log(response.data);

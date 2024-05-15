@@ -9,7 +9,7 @@ const Home = () => {
     const time = new Date().toISOString();
     setCheckInTime(time);
     try {
-      await axios.post("http://localhost:3000/track", {
+      await axios.post("https://api-work-io-demo.vercel.app/track", {
         type: "checkin",
         time: time,
         token: localStorage.getItem("token"),
@@ -23,7 +23,7 @@ const Home = () => {
     const time = new Date().toISOString();
     setCheckOutTime(time);
     try {
-      await axios.post("http://localhost:3000/track", {
+      await axios.post("https://api-work-io-demo.vercel.app/track", {
         type: "checkout",
         time: time,
         token: localStorage.getItem("token"),
