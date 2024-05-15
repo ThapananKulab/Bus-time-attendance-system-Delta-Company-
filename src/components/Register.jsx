@@ -1,64 +1,47 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+const theme = createTheme();
 
-const defaultTheme = createTheme();
+export default function Register() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-export default function SignIn() {
-  const navigate = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const loginData = {
-      name: data.get("name"),
-      password: data.get("password"),
-    };
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/login",
-        loginData
+        "http://localhost:3000/register",
+        formData
       );
       console.log(response.data);
-      // Assuming your API returns a token upon successful login
-      localStorage.setItem("token", response.data.token);
-      navigate("/Home");
+      // Handle successful registration (e.g., navigate to login page or display a success message)
     } catch (error) {
-      console.error("Error logging in:", error);
-      alert("Invalid email or password");
+      console.error("There was an error registering the user!", error);
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -68,13 +51,12 @@ export default function SignIn() {
             flexDirection: "column",
             alignItems: "center",
           }}
-          mb={3}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            เข้าสู่ระบบ
+            Register
           </Typography>
           <Box
             component="form"
@@ -87,20 +69,35 @@ export default function SignIn() {
               required
               fullWidth
               id="name"
-              label="ชื่อบัญชีผู้ใช้"
+              label="Name"
               name="name"
               autoComplete="name"
               autoFocus
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={formData.email}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
-              label="รหัสผ่าน"
+              label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              value={formData.password}
+              onChange={handleChange}
             />
             <Button
               type="submit"
@@ -108,8 +105,15 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Register
             </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="/" variant="body2">
+                  {"Already have an account? Sign In"}
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>
