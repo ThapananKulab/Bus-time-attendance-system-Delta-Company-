@@ -56,7 +56,7 @@ export default function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Register
+            สมัครสมาชิก
           </Typography>
           <Box
             component="form"
@@ -69,7 +69,7 @@ export default function Register() {
               required
               fullWidth
               id="name"
-              label="Name"
+              label="ชื่อบัญชีผู้ใช้"
               name="name"
               autoComplete="name"
               autoFocus
@@ -81,7 +81,7 @@ export default function Register() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               value={formData.email}
@@ -92,7 +92,7 @@ export default function Register() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="รหัสผ่าน"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -110,7 +110,7 @@ export default function Register() {
             <Grid container>
               <Grid item>
                 <Link href="/" variant="body2">
-                  {"Already have an account? Sign In"}
+                  {"เข้าสู่ระบบ"}
                 </Link>
               </Grid>
             </Grid>
