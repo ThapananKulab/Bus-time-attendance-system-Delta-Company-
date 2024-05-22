@@ -43,7 +43,7 @@ const Sidebar = ({ currentPath }) => {
   };
 
   const menuItems = [
-    { text: "Home", icon: <AccountCircle />, path: "/home" },
+    { text: "Home", icon: <AccountCircle />, path: "/Home" },
     { text: "ข้อมูลพนักงาน", icon: <HomeIcon />, path: "/view/user" },
     { text: "About", icon: <InfoIcon />, path: "/about" },
     { text: "Contact", icon: <ContactMailIcon />, path: "/contact" },
