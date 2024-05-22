@@ -1,16 +1,18 @@
 import React from "react";
 import Sidebar from "./navbar.jsx";
-import { Toolbar } from "@mui/material";
+import { Toolbar, Grid } from "@mui/material";
 
 const Layout = ({ children }) => {
   return (
-    <div style={{ display: "flex" }}>
+    <Grid container>
       <Sidebar />
-      <main style={{ flexGrow: 1, padding: "24px" }}>
-        <Toolbar />
-        {children}
-      </main>
-    </div>
+      <Grid item xs={12} md={9}>
+        <main style={{ flexGrow: 1, padding: "24px" }}>
+          <Toolbar />
+          {children}
+        </main>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -1,5 +1,4 @@
-// Sidebar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -15,11 +14,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
+import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -29,6 +29,7 @@ const Sidebar = ({ currentPath }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -42,10 +43,49 @@ const Sidebar = ({ currentPath }) => {
     setAnchorEl(null);
   };
 
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "https://api-work-io-demo.vercel.app/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}),
+        }
+      );
+
+      if (response.ok) {
+        localStorage.removeItem("token");
+        navigate("/"); // Use the navigate function from the hook
+      } else {
+        console.error("Failed to logout:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during logout:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isBelowThreshold = window.innerWidth < theme.breakpoints.values.sm;
+      setMobileOpen(isBelowThreshold);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [theme.breakpoints.values.sm]);
+
   const menuItems = [
-    { text: "Home", icon: <AccountCircle />, path: "/Home" },
-    { text: "ข้อมูลพนักงาน", icon: <HomeIcon />, path: "/view/user" },
-    { text: "About", icon: <InfoIcon />, path: "/about" },
+    { text: "หน้าหลัก", icon: <HomeIcon />, path: "/Home" },
+    { text: "ข้อมูลพนักงาน", icon: <AccountCircle />, path: "/view/user" },
+    { text: "แจ้งเตือน", icon: <LocalPostOfficeIcon />, path: "/view/post" },
     { text: "Contact", icon: <ContactMailIcon />, path: "/contact" },
   ];
 
@@ -88,6 +128,36 @@ const Sidebar = ({ currentPath }) => {
           <Typography variant="h6" noWrap component="div">
             ระบบจัดการรถบัส Delta
           </Typography>
+          <div style={{ marginLeft: "auto" }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Account</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </div>
         </Toolbar>
       </AppBar>
       <nav>
@@ -99,18 +169,27 @@ const Sidebar = ({ currentPath }) => {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            marginTop: "64px", // Adjust the margin top here to avoid overlapping with AppBar
+            marginTop: isMobile ? "64px" : "0px", // Adjust the marginTop for mobile view
             display: { xs: "block", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              ...(isMobile && {
+                width: "80%", // Adjust drawer width for mobile view
+              }),
             },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
-      <main style={{ flexGrow: 1, padding: "24px" }}>
+      <main
+        style={{
+          flexGrow: 1,
+          padding: "24px",
+          marginLeft: isMobile ? 0 : drawerWidth,
+        }}
+      >
         <Toolbar />
       </main>
     </div>

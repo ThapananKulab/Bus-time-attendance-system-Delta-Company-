@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Button, Typography, Box } from "@mui/material";
 
 const Home = () => {
   const [checkInTime, setCheckInTime] = useState(null);
@@ -34,21 +35,31 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1>Home Page</h1>
-      <div>
-        <button onClick={handleCheckIn}>Check In</button>
-        <button onClick={handleCheckOut}>Check Out</button>
-      </div>
-      <div>
+    <Box textAlign="center" mt={4}>
+      <Typography variant="h3" mb={3}>
+        Home Page
+      </Typography>
+      <Box mb={2}>
+        <Button variant="contained" onClick={handleCheckIn}>
+          Check In
+        </Button>{" "}
+        <Button variant="contained" onClick={handleCheckOut}>
+          Check Out
+        </Button>
+      </Box>
+      <Box>
         {checkInTime && (
-          <p>Check-In Time: {new Date(checkInTime).toLocaleString()}</p>
+          <Typography variant="body1">
+            Check-In Time: {new Date(checkInTime).toLocaleString()}
+          </Typography>
         )}
         {checkOutTime && (
-          <p>Check-Out Time: {new Date(checkOutTime).toLocaleString()}</p>
+          <Typography variant="body1">
+            Check-Out Time: {new Date(checkOutTime).toLocaleString()}
+          </Typography>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

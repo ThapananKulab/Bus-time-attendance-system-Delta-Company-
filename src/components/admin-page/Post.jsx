@@ -11,22 +11,6 @@ import Grid from "@mui/material/Grid";
 export default function App() {
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
       <Grid container spacing={3} sx={{ padding: 3 }}>
         <Grid item xs={12}>
           <Paper sx={{ p: 2, textAlign: "center" }}>

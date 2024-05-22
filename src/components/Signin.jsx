@@ -53,6 +53,7 @@ export default function SignIn() {
     const loginData = {
       name: data.get("name"),
       password: data.get("password"),
+      role: "user", // ตั้งค่า role ตามที่คุณต้องการ
     };
 
     try {
