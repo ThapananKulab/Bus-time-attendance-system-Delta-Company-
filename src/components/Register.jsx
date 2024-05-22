@@ -33,7 +33,10 @@ export default function Register() {
     try {
       const response = await axios.post(
         "https://api-work-io-demo.vercel.app/register",
-        formData
+        {
+          ...formData,
+          role: "พนักงาน",
+        }
       );
       console.log(response.data);
       toast.success("เพิ่ม username สำเร็จ !");

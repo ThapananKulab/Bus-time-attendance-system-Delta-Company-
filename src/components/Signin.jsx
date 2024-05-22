@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +12,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Copyright(props) {
   return (
@@ -31,7 +33,16 @@ function Copyright(props) {
   );
 }
 
-const defaultTheme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#3f51b5", // Primary color
+    },
+    secondary: {
+      main: "#f50057", // Secondary color
+    },
+  },
+});
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -50,17 +61,33 @@ export default function SignIn() {
         loginData
       );
       console.log(response.data);
-      // Assuming your API returns a token upon successful login
       localStorage.setItem("token", response.data.token);
+      toast.success("ล็อกอิน สำเร็จ", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       navigate("/Home");
     } catch (error) {
       console.error("Error logging in:", error);
-      alert("Invalid email or password");
+      toast.error("ชื่อ Username หรือ รหัสผ่านไม่ถูกต้อง", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -70,7 +97,6 @@ export default function SignIn() {
             flexDirection: "column",
             alignItems: "center",
           }}
-          mb={3}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
@@ -112,7 +138,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Grid container>
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/register" variant="body2">
                   {"สมัครสมาชิก"}
@@ -121,6 +147,7 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
+        <ToastContainer />
       </Container>
     </ThemeProvider>
   );
