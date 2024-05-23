@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Helmet } from "react-helmet";
 
 function Copyright(props) {
   return (
@@ -89,6 +90,9 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Helmet>
+        <title>เข้าสู่ระบบ</title>
+      </Helmet>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -99,11 +103,12 @@ export default function SignIn() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar
+            src="https://deltathailand.com/imgadmins/news/news_cover/DELTA_news_photo2019-02-27_15-17-12.jpg"
+            sx={{ width: 120, height: 120 }}
+          ></Avatar>
           <Typography component="h1" variant="h5">
-            เข้าสู่ระบบ
+            ระบบบันทึกเวลารถบัส Delta
           </Typography>
           <Box
             component="form"

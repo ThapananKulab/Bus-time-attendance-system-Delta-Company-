@@ -10,6 +10,7 @@ import {
   Typography,
   Stack,
   Container,
+  Button,
 } from "@mui/material";
 import axios from "axios";
 
@@ -37,23 +38,29 @@ const MyTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
-                <Typography variant="h6">Name</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6">Email</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6">Role</Typography>
-              </TableCell>
+              <TableCell>Id</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((row) => (
               <TableRow key={row._id}>
+                <TableCell>{row._id}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.role}</TableCell>
+                <TableCell>
+                  <Button variant="contained" color="warning">
+                    แก้ไข
+                  </Button>
+                  &nbsp;
+                  <Button variant="contained" color="error">
+                    ลบ
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
