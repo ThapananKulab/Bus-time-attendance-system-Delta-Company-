@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import styled1 from "styled-components";
 import { Button, Typography, Box } from "@mui/material";
 
 const Home = () => {
+  const StyledDiv = styled1.div`
+  font-family: "Kanit", sans-serif;
+`;
   const [checkInTime, setCheckInTime] = useState(null);
   const [checkOutTime, setCheckOutTime] = useState(null);
 
@@ -37,7 +41,7 @@ const Home = () => {
   return (
     <Box textAlign="center" mt={4}>
       <Typography variant="h3" mb={3}>
-        Home Page
+        <StyledDiv>Home Page</StyledDiv>
       </Typography>
       <Box mb={2}>
         <Button variant="contained" onClick={handleCheckIn}>

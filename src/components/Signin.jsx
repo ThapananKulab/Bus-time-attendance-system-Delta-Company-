@@ -15,6 +15,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet";
+import styled1 from "styled-components";
 
 function Copyright(props) {
   return (
@@ -47,6 +48,10 @@ const theme = createTheme({
 
 export default function SignIn() {
   const navigate = useNavigate();
+
+  const StyledDiv = styled1.div`
+  font-family: "Kanit", sans-serif;
+`;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -108,7 +113,7 @@ export default function SignIn() {
             sx={{ width: 120, height: 120 }}
           ></Avatar>
           <Typography component="h1" variant="h5">
-            ระบบบันทึกเวลารถบัส Delta
+            <StyledDiv>ระบบบันทึกเวลารถบัส Delta </StyledDiv>
           </Typography>
           <Box
             component="form"
@@ -142,7 +147,7 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              <StyledDiv>เข้าสู่ระบบ</StyledDiv>
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

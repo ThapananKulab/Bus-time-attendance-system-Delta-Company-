@@ -20,10 +20,15 @@ import MenuItem from "@mui/material/MenuItem";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useLocation, useNavigate } from "react-router-dom";
+import styled1 from "styled-components";
 
 const drawerWidth = 240;
 
 const Sidebar = ({ currentPath }) => {
+  const StyledDiv = styled1.div`
+  font-family: "Kanit", sans-serif;
+`;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
@@ -94,20 +99,24 @@ const Sidebar = ({ currentPath }) => {
       <Toolbar />
       <Divider />
       <List>
-        {menuItems.map((item) => (
-          <ListItem
-            button
-            key={item.text}
-            component="a"
-            href={item.path}
-            selected={
-              currentPath === item.path || location.pathname === item.path
-            }
-          >
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItem>
-        ))}
+        <StyledDiv>
+          {menuItems.map((item) => (
+            <ListItem
+              button
+              key={item.text}
+              component="a"
+              href={item.path}
+              selected={
+                currentPath === item.path || location.pathname === item.path
+              }
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <StyledDiv>
+                <ListItemText primary={item.text} />
+              </StyledDiv>
+            </ListItem>
+          ))}
+        </StyledDiv>
       </List>
     </div>
   );
@@ -126,7 +135,7 @@ const Sidebar = ({ currentPath }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            ระบบจัดการรถบัส Delta
+            <StyledDiv>ระบบจัดการรถบัส Delta </StyledDiv>
           </Typography>
           <div style={{ marginLeft: "auto" }}>
             <IconButton
@@ -154,8 +163,12 @@ const Sidebar = ({ currentPath }) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Account</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              <MenuItem onClick={handleClose}>
+                <StyledDiv>Account </StyledDiv>
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>
+                <StyledDiv>Logout </StyledDiv>
+              </MenuItem>
             </Menu>
           </div>
         </Toolbar>
@@ -166,16 +179,16 @@ const Sidebar = ({ currentPath }) => {
           open={isMobile ? mobileOpen : true}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
-            marginTop: isMobile ? "64px" : "0px", // Adjust the marginTop for mobile view
+            marginTop: isMobile ? "64px" : "0px",
             display: { xs: "block", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
               ...(isMobile && {
-                width: "80%", // Adjust drawer width for mobile view
+                width: "80%",
               }),
             },
           }}

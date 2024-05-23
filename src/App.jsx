@@ -6,6 +6,7 @@ import Register from "./components/Register.jsx";
 import User from "./components/admin-page/User.jsx";
 import Layout from "./components/admin-page/Layout.jsx";
 import Post from "./components/admin-page/Post.jsx";
+import Error from "./Error.jsx";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
       />
 
       <Route path="/register" element={<Register />} />
+      <Route path="*" exact={true} element={<Error />} />
     </Routes>
   );
 };

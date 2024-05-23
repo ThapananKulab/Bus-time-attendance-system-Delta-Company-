@@ -58,11 +58,13 @@ export default function Register() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar
+            src="https://deltathailand.com/imgadmins/news/news_cover/DELTA_news_photo2019-02-27_15-17-12.jpg"
+            sx={{ width: 120, height: 120 }}
+          />
+
           <Typography component="h1" variant="h5">
-            สมัครสมาชิก
+            ลงทะเบียน
           </Typography>
           <Box
             component="form"
@@ -111,7 +113,7 @@ export default function Register() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Register
+              ยืนยัน
             </Button>
             <Grid container>
               <Grid item>
