@@ -135,7 +135,7 @@ const Sidebar = ({ currentPath }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            <StyledDiv>ระบบจัดการรถบัส Delta </StyledDiv>
+            <StyledDiv>ระบบจัดการลงเวลารถบัส Delta </StyledDiv>
           </Typography>
           <div style={{ marginLeft: "auto" }}>
             <IconButton

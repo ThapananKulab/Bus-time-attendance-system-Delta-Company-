@@ -46,7 +46,7 @@ export default function Register() {
       toast.success("เพิ่ม username สำเร็จ !");
     } catch (error) {
       console.error("There was an error registering the user!", error);
-      toast.error("รหัสผ่านผิด");
+      toast.error("เกิดข้อผิดพลาด");
     }
   };
 
