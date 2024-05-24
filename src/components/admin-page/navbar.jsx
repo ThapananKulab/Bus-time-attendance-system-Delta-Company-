@@ -46,6 +46,7 @@ const Sidebar = ({ currentPath }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    navigate("/account");
   };
 
   const handleLogout = async () => {

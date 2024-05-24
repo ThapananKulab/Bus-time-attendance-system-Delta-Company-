@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home.jsx";
+import Account from "./components/Account.jsx";
 import Signin from "./components/Signin.jsx";
 import Register from "./components/Register.jsx";
 import User from "./components/admin-page/User.jsx";
@@ -38,6 +39,14 @@ const App = () => {
       />
 
       <Route path="/register" element={<Register />} />
+      <Route
+        path="/account"
+        element={
+          <Layout>
+            <Account />
+          </Layout>
+        }
+      />
       <Route path="*" exact={true} element={<Error />} />
     </Routes>
   );

@@ -6,7 +6,6 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -59,12 +58,11 @@ export default function SignIn() {
     const loginData = {
       name: data.get("name"),
       password: data.get("password"),
-      role: "user", // ตั้งค่า role ตามที่คุณต้องการ
     };
 
     try {
       const response = await axios.post(
-        "https://api-work-io-demo.vercel.app/login",
+        "http://localhost:3000/login",
         loginData
       );
       console.log(response.data);
@@ -78,7 +76,13 @@ export default function SignIn() {
         draggable: true,
         progress: undefined,
       });
-      navigate("/Home");
+
+      if (response.data.role === "A") {
+        navigate("/home");
+      } else {
+        navigate("/account");
+      }
+      console.log(response.data.role);
     } catch (error) {
       console.error("Error logging in:", error);
       toast.error("ชื่อ Username หรือ รหัสผ่านไม่ถูกต้อง", {
