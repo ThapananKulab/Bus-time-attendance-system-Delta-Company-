@@ -90,7 +90,6 @@ function SignIn() {
     }
   }
 
-  // Function to handle expired token
   const handleTokenExpiration = () => {
     Swal.fire({
       icon: 'error',

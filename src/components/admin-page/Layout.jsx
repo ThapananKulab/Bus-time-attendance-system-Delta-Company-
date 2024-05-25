@@ -8,8 +8,14 @@ const Layout = ({ children }) => {
       <Grid item xs={12} md={3}>
         <Sidebar />
       </Grid>
-      <Grid item xs={12} md={9}>
-        <main style={{ flexGrow: 1, padding: '24px', marginLeft: 'auto' }}>
+      <Grid item xs={12} md={8.5}>
+        <main
+          style={{
+            flexGrow: 1,
+            padding: '24px',
+            marginLeft: 'auto',
+          }}
+        >
           <Toolbar />
           {children}
         </main>
