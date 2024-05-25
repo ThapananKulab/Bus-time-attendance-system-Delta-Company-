@@ -100,17 +100,6 @@ const Sidebar = ({ currentPath }) => {
   }
 
   useEffect(() => {
-    const handleResize = () => {
-      setMobileOpen(window.innerWidth < theme.breakpoints.values.sm)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [theme.breakpoints.values.sm])
-
-  useEffect(() => {
     const token = localStorage.getItem('token')
 
     if (token) {
@@ -238,11 +227,10 @@ const Sidebar = ({ currentPath }) => {
           onClose={handleDrawerToggle}
           ModalProps={{ keepMounted: true }}
           sx={{
-            marginTop: isMobile ? '64px' : '0px',
             display: { xs: 'block', sm: 'block' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
-              width: isMobile ? '80%' : drawerWidth,
+              width: drawerWidth,
             },
           }}
         >
