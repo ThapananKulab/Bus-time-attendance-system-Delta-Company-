@@ -1,101 +1,106 @@
-import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Helmet } from "react-helmet";
-import styled1 from "styled-components";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import React, { useState } from 'react'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { Helmet } from 'react-helmet'
+import styled1 from 'styled-components'
+import { jwtDecode } from 'jwt-decode' // Import jwt-decode
+import Swal from 'sweetalert2' // Import SweetAlert2
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#3f51b5", // Primary color
+      main: '#3f51b5', // Primary color
     },
     secondary: {
-      main: "#f50057", // Secondary color
+      main: '#f50057', // Secondary color
     },
   },
-});
+})
 
-export default function SignIn() {
-  const navigate = useNavigate();
+function SignIn() {
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
 
   const StyledDiv = styled1.div`
-  font-family: "Kanit", sans-serif;
-`;
+    font-family: "Kanit", sans-serif;
+  `
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
     const loginData = {
-      name: data.get("name"),
-      password: data.get("password"),
-    };
+      name: data.get('name'),
+      password: data.get('password'),
+    }
+
+    setIsLoading(true)
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/login",
+        'http://localhost:3000/login',
         loginData
-      );
-      console.log(response.data);
-      localStorage.setItem("token", response.data.token);
-      toast.success("ล็อกอิน สำเร็จ", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      )
+      const token = response.data.token
+      localStorage.setItem('token', token)
 
-      if (response.data.role === "A") {
-        navigate("/home");
-      } else {
-        navigate("/account");
-      }
-      console.log(response.data.role);
-    } catch (error) {
-      console.error("Error logging in:", error);
-      toast.error("ชื่อ Username หรือ รหัสผ่านไม่ถูกต้อง", {
-        position: "top-right",
+      toast.success('ล็อกอิน สำเร็จ', {
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      });
+      })
+
+      // Decode the token to get the user's role
+      const decodedToken = jwtDecode(token)
+      const userRole = decodedToken.role
+
+      if (userRole === 'admin') {
+        navigate('/home')
+      } else {
+        navigate('/account')
+      }
+    } catch (error) {
+      console.error('Error logging in:', error)
+      toast.error('ชื่อ Username หรือ รหัสผ่านไม่ถูกต้อง', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
+
+  // Function to handle expired token
+  const handleTokenExpiration = () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'หมดเวลาการเข้าสู่ระบบ',
+      text: 'โปรดล็อกอินอีกครั้ง',
+    }).then(() => {
+      localStorage.removeItem('token')
+      navigate('/')
+    })
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,15 +112,15 @@ export default function SignIn() {
         <Box
           sx={{
             marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           <Avatar
             src="https://deltathailand.com/imgadmins/news/news_cover/DELTA_news_photo2019-02-27_15-17-12.jpg"
             sx={{ width: 120, height: 120 }}
-          ></Avatar>
+          />
           <Typography component="h1" variant="h5">
             <StyledDiv>ระบบบันทึกเวลารถบัส Delta </StyledDiv>
           </Typography>
@@ -150,13 +155,14 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isLoading}
             >
               <StyledDiv>เข้าสู่ระบบ</StyledDiv>
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/register" variant="body2">
-                  {"สมัครสมาชิก"}
+                  {'สมัครสมาชิก'}
                 </Link>
               </Grid>
             </Grid>
@@ -165,5 +171,7 @@ export default function SignIn() {
         <ToastContainer />
       </Container>
     </ThemeProvider>
-  );
+  )
 }
+
+export default SignIn

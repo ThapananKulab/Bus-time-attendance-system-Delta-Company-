@@ -1,70 +1,86 @@
-import React, { useState } from "react";
-import axios from "axios";
-import styled1 from "styled-components";
-import { Button, Typography, Box } from "@mui/material";
+import React, { useState } from 'react'
+import axios from 'axios'
+import { Button, Typography, Box } from '@mui/material'
 
 const Home = () => {
-  const StyledDiv = styled1.div`
-  font-family: "Kanit", sans-serif;
-`;
-  const [checkInTime, setCheckInTime] = useState(null);
-  const [checkOutTime, setCheckOutTime] = useState(null);
+  const [checkInTime, setCheckInTime] = useState(null)
+  const [checkOutTime, setCheckOutTime] = useState(null)
 
   const handleCheckIn = async () => {
-    const time = new Date().toISOString();
-    setCheckInTime(time);
+    const time = new Date().toISOString()
+    setCheckInTime(time)
     try {
-      await axios.post("https://api-work-io-demo.vercel.app/track", {
-        type: "checkin",
+      await axios.post('https://api-work-io-demo.vercel.app/track', {
+        type: 'checkin',
         time: time,
-        token: localStorage.getItem("token"),
-      });
+        token: localStorage.getItem('token'),
+      })
     } catch (error) {
-      console.error("Error checking in:", error);
+      console.error('Error checking in:', error)
     }
-  };
+  }
 
   const handleCheckOut = async () => {
-    const time = new Date().toISOString();
-    setCheckOutTime(time);
+    const time = new Date().toISOString()
+    setCheckOutTime(time)
     try {
-      await axios.post("https://api-work-io-demo.vercel.app/track", {
-        type: "checkout",
+      await axios.post('https://api-work-io-demo.vercel.app/track', {
+        type: 'checkout',
         time: time,
-        token: localStorage.getItem("token"),
-      });
+        token: localStorage.getItem('token'),
+      })
     } catch (error) {
-      console.error("Error checking out:", error);
+      console.error('Error checking out:', error)
     }
-  };
+  }
 
   return (
-    <Box textAlign="center" mt={4}>
-      <Typography variant="h3" mb={3}>
-        <StyledDiv>Home Page</StyledDiv>
+    <Box
+      textAlign="center"
+      mt={4}
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+    >
+      <Typography
+        variant="h3"
+        mb={3}
+        style={{ fontFamily: 'Kanit, sans-serif' }}
+      >
+        Home Page
       </Typography>
       <Box mb={2}>
-        <Button variant="contained" onClick={handleCheckIn}>
+        <Button
+          variant="contained"
+          onClick={handleCheckIn}
+          style={{ marginRight: '10px' }}
+        >
           Check In
-        </Button>{" "}
+        </Button>
         <Button variant="contained" onClick={handleCheckOut}>
           Check Out
         </Button>
       </Box>
       <Box>
         {checkInTime && (
-          <Typography variant="body1">
+          <Typography
+            variant="body1"
+            style={{ fontFamily: 'Kanit, sans-serif' }}
+          >
             Check-In Time: {new Date(checkInTime).toLocaleString()}
           </Typography>
         )}
         {checkOutTime && (
-          <Typography variant="body1">
+          <Typography
+            variant="body1"
+            style={{ fontFamily: 'Kanit, sans-serif' }}
+          >
             Check-Out Time: {new Date(checkOutTime).toLocaleString()}
           </Typography>
         )}
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

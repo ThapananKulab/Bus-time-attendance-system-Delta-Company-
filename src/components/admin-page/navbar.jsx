@@ -1,129 +1,142 @@
-import React, { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
-import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useLocation, useNavigate } from "react-router-dom";
-import styled1 from "styled-components";
+import React, { useState, useEffect } from 'react'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Divider from '@mui/material/Divider'
+import MenuIcon from '@mui/icons-material/Menu'
+import HomeIcon from '@mui/icons-material/Home'
+import ContactMailIcon from '@mui/icons-material/ContactMail'
+import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import Swal from 'sweetalert2' // Import SweetAlert
 
-const drawerWidth = 240;
+const drawerWidth = 240
+
+const StyledDiv = styled.div`
+  font-family: 'Kanit', sans-serif;
+`
 
 const Sidebar = ({ currentPath }) => {
-  const StyledDiv = styled1.div`
-  font-family: "Kanit", sans-serif;
-`;
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const location = useLocation()
+  const navigate = useNavigate()
 
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const location = useLocation();
-  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      Swal.fire({
+        icon: 'error',
+        title: 'กรุณาเข้าสู่ระบบ',
+        text: 'โปรดเข้าสู่ระบบเพื่อเข้าถึงหน้านี้',
+        confirmButtonText: 'ตกลง',
+      }).then(() => {
+        navigate('/')
+      })
+    }
+  }, [navigate])
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
 
   const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-    navigate("/account");
-  };
+    setAnchorEl(null)
+    navigate('/account')
+  }
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token')
+
+      if (!token) {
+        navigate('/')
+        return
+      }
+
       const response = await fetch(
-        "https://api-work-io-demo.vercel.app/logout",
+        'https://api-work-io-demo.vercel.app/logout',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({}),
         }
-      );
+      )
 
       if (response.ok) {
-        localStorage.removeItem("token");
-        navigate("/"); // Use the navigate function from the hook
+        localStorage.removeItem('token')
+        navigate('/')
       } else {
-        console.error("Failed to logout:", response.statusText);
+        console.error('Failed to logout:', response.statusText)
       }
     } catch (error) {
-      console.error("Error during logout:", error.message);
+      console.error('Error during logout:', error.message)
     }
-  };
+  }
 
   useEffect(() => {
     const handleResize = () => {
-      const isBelowThreshold = window.innerWidth < theme.breakpoints.values.sm;
-      setMobileOpen(isBelowThreshold);
-    };
+      setMobileOpen(window.innerWidth < theme.breakpoints.values.sm)
+    }
 
-    window.addEventListener("resize", handleResize);
-
+    window.addEventListener('resize', handleResize)
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [theme.breakpoints.values.sm]);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [theme.breakpoints.values.sm])
 
   const menuItems = [
-    { text: "หน้าหลัก", icon: <HomeIcon />, path: "/Home" },
-    { text: "ข้อมูลพนักงาน", icon: <AccountCircle />, path: "/view/user" },
-    { text: "แจ้งเตือน", icon: <LocalPostOfficeIcon />, path: "/view/post" },
-    { text: "Contact", icon: <ContactMailIcon />, path: "/contact" },
-  ];
+    { text: 'หน้าหลัก', icon: <HomeIcon />, path: '/Home' },
+    { text: 'ข้อมูลพนักงาน', icon: <AccountCircle />, path: '/view/user' },
+    { text: 'แจ้งเตือน', icon: <LocalPostOfficeIcon />, path: '/view/post' },
+    { text: 'Contact', icon: <ContactMailIcon />, path: '/contact' },
+  ]
 
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        <StyledDiv>
-          {menuItems.map((item) => (
-            <ListItem
-              button
-              key={item.text}
-              component="a"
-              href={item.path}
-              selected={
-                currentPath === item.path || location.pathname === item.path
-              }
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <StyledDiv>
-                <ListItemText primary={item.text} />
-              </StyledDiv>
-            </ListItem>
-          ))}
-        </StyledDiv>
+        {menuItems.map((item) => (
+          <ListItem
+            button
+            key={item.text}
+            onClick={() => navigate(item.path)}
+            selected={
+              currentPath === item.path || location.pathname === item.path
+            }
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={<StyledDiv>{item.text}</StyledDiv>} />
+          </ListItem>
+        ))}
       </List>
     </div>
-  );
+  )
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: 'flex' }}>
       <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <IconButton
@@ -136,9 +149,9 @@ const Sidebar = ({ currentPath }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            <StyledDiv>ระบบจัดการลงเวลารถบัส Delta </StyledDiv>
+            <StyledDiv>ระบบจัดการลงเวลารถบัส Delta</StyledDiv>
           </Typography>
-          <div style={{ marginLeft: "auto" }}>
+          <div style={{ marginLeft: 'auto' }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -152,23 +165,17 @@ const Sidebar = ({ currentPath }) => {
             <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>
-                <StyledDiv>Account </StyledDiv>
+                <StyledDiv>Account</StyledDiv>
               </MenuItem>
               <MenuItem onClick={handleLogout}>
-                <StyledDiv>Logout </StyledDiv>
+                <StyledDiv>Logout</StyledDiv>
               </MenuItem>
             </Menu>
           </div>
@@ -176,21 +183,16 @@ const Sidebar = ({ currentPath }) => {
       </AppBar>
       <nav>
         <Drawer
-          variant={isMobile ? "temporary" : "permanent"}
+          variant={isMobile ? 'temporary' : 'permanent'}
           open={isMobile ? mobileOpen : true}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
+          ModalProps={{ keepMounted: true }}
           sx={{
-            marginTop: isMobile ? "64px" : "0px",
-            display: { xs: "block", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              ...(isMobile && {
-                width: "80%",
-              }),
+            marginTop: isMobile ? '64px' : '0px',
+            display: { xs: 'block', sm: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: isMobile ? '80%' : drawerWidth,
             },
           }}
         >
@@ -200,14 +202,14 @@ const Sidebar = ({ currentPath }) => {
       <main
         style={{
           flexGrow: 1,
-          padding: "24px",
+          padding: '24px',
           marginLeft: isMobile ? 0 : drawerWidth,
         }}
       >
         <Toolbar />
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
