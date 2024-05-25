@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -11,23 +11,23 @@ import {
   Stack,
   Container,
   Button,
-} from "@mui/material";
-import axios from "axios";
+} from '@mui/material'
+import axios from 'axios'
 
 const MyTable = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
 
   useEffect(() => {
     // Fetch data from MongoDB using Axios
     axios
-      .get("https://api-work-io-demo.vercel.app/api/users")
+      .get('https://api-work-io-demo.vercel.app/api/users')
       .then((response) => {
-        setData(response.data);
+        setData(response.data)
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+        console.error('Error fetching data:', error)
+      })
+  }, [])
 
   return (
     <Container>
@@ -39,9 +39,9 @@ const MyTable = () => {
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell>ชื่อบัญชี</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Role</TableCell>
+              <TableCell>ตำแหน่ง</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -67,7 +67,7 @@ const MyTable = () => {
         </Table>
       </TableContainer>
     </Container>
-  );
-};
+  )
+}
 
-export default MyTable;
+export default MyTable

@@ -11,7 +11,7 @@ const ProfilePage = () => {
 
     if (token) {
       axios
-        .get('http://localhost:3000/profile', {
+        .get('https://api-work-io-demo.vercel.app/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -60,6 +60,21 @@ const ProfilePage = () => {
           </Typography>
           <Typography variant="body1" sx={{ fontFamily: 'Kanit, sans-serif' }}>
             <strong>Email:</strong> {userData.email}
+          </Typography>
+          <Typography variant="body1" sx={{ fontFamily: 'Kanit, sans-serif' }}>
+            <strong>ชื่อ:</strong> {userData.firstname}
+          </Typography>
+          <Typography variant="body1" sx={{ fontFamily: 'Kanit, sans-serif' }}>
+            <strong>นามสกุล:</strong> {userData.lastname}
+          </Typography>
+          <Typography variant="body1" sx={{ fontFamily: 'Kanit, sans-serif' }}>
+            <strong>เบอร์โทรศัพท์:</strong> {userData.phone}
+          </Typography>
+          <Typography variant="body1" sx={{ fontFamily: 'Kanit, sans-serif' }}>
+            <strong>ชื่อสาย:</strong> {userData.linename}
+          </Typography>
+          <Typography variant="body1" sx={{ fontFamily: 'Kanit, sans-serif' }}>
+            <strong>เลขทะเบียน:</strong> {userData.line}
           </Typography>
         </Box>
       ) : (

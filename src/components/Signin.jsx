@@ -16,7 +16,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Helmet } from 'react-helmet'
 import styled1 from 'styled-components'
 import { jwtDecode } from 'jwt-decode' // Import jwt-decode
-import Swal from 'sweetalert2' // Import SweetAlert2
 
 const theme = createTheme({
   palette: {
@@ -49,7 +48,7 @@ function SignIn() {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/login',
+        'https://api-work-io-demo.vercel.app/login',
         loginData
       )
       const token = response.data.token
@@ -88,17 +87,6 @@ function SignIn() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleTokenExpiration = () => {
-    Swal.fire({
-      icon: 'error',
-      title: 'หมดเวลาการเข้าสู่ระบบ',
-      text: 'โปรดล็อกอินอีกครั้ง',
-    }).then(() => {
-      localStorage.removeItem('token')
-      navigate('/')
-    })
   }
 
   return (

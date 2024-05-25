@@ -20,7 +20,8 @@ import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import Swal from 'sweetalert2' // Import SweetAlert
+import Swal from 'sweetalert2'
+import axios from 'axios'
 
 const drawerWidth = 240
 
@@ -31,6 +32,9 @@ const StyledDiv = styled.div`
 const Sidebar = ({ currentPath }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [menuItems, setMenuItems] = useState([])
+  const [userData, setUserData] = useState(null)
+  const [loading, setLoading] = useState(true)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const location = useLocation()
@@ -106,12 +110,58 @@ const Sidebar = ({ currentPath }) => {
     }
   }, [theme.breakpoints.values.sm])
 
-  const menuItems = [
-    { text: 'หน้าหลัก', icon: <HomeIcon />, path: '/Home' },
-    { text: 'ข้อมูลพนักงาน', icon: <AccountCircle />, path: '/view/user' },
-    { text: 'แจ้งเตือน', icon: <LocalPostOfficeIcon />, path: '/view/post' },
-    { text: 'Contact', icon: <ContactMailIcon />, path: '/contact' },
-  ]
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+
+    if (token) {
+      axios
+        .get('https://api-work-io-demo.vercel.app/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setUserData(response.data)
+          setLoading(false)
+          if (response.data.role === 'admin') {
+            setMenuItems([
+              { text: 'หน้าหลัก', icon: <HomeIcon />, path: '/Home' },
+              {
+                text: 'ข้อมูลพนักงาน',
+                icon: <AccountCircle />,
+                path: '/view/user',
+              },
+              {
+                text: 'แจ้งเตือน',
+                icon: <LocalPostOfficeIcon />,
+                path: '/view/post',
+              },
+              { text: 'Contact', icon: <ContactMailIcon />, path: '/contact' },
+            ])
+          } else {
+            setMenuItems([
+              { text: 'หน้าหลัก', icon: <HomeIcon />, path: '/Home' },
+              {
+                text: 'ข้อมูลส่วนตัว',
+                icon: <AccountCircle />,
+                path: '/account',
+              },
+              {
+                text: 'แจ้งเรื่อง',
+                icon: <ContactMailIcon />,
+                path: '/view/post',
+              },
+            ])
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          setLoading(false)
+        })
+    } else {
+      setLoading(false)
+    }
+  }, [])
 
   const drawer = (
     <div>
