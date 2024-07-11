@@ -1,68 +1,68 @@
-import React, { useState } from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import styled1 from 'styled-components'
+import React, { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import styled1 from "styled-components";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#3f51b5', // Primary color
+      main: "#3f51b5", // Primary color
     },
     secondary: {
-      main: '#f50057', // Secondary color
+      main: "#f50057", // Secondary color
     },
   },
-})
+});
 
 export default function Register() {
   const StyledDiv = styled1.div`
   font-family: "Kanit", sans-serif;
-`
+`;
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-    firstname: '',
-    lastname: '',
-    line: '',
-    linename: '',
-  })
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    firstname: "",
+    lastname: "",
+    line: "",
+    linename: "",
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await axios.post(
-        'https://api-work-io-demo.vercel.app/register',
+        "https://api-work-io-demo.vercel.app/register",
         {
           ...formData,
-          role: 'พนักงาน',
+          role: "พนักงาน",
         }
-      )
-      console.log(response.data)
-      toast.success('เพิ่ม username สำเร็จ !')
+      );
+      console.log(response.data);
+      toast.success("เพิ่ม username สำเร็จ !");
     } catch (error) {
-      console.error('There was an error registering the user!', error)
-      toast.error('เกิดข้อผิดพลาด')
+      console.error("There was an error registering the user!", error);
+      toast.error("เกิดข้อผิดพลาด");
     }
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -71,13 +71,13 @@ export default function Register() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Avatar
-            src="https://deltathailand.com/imgadmins/news/news_cover/DELTA_news_photo2019-02-27_15-17-12.jpg"
+            src="https://cdn-icons-png.flaticon.com/512/3589/3589030.png"
             sx={{ width: 120, height: 120 }}
           />
 
@@ -194,7 +194,7 @@ export default function Register() {
             <Grid container>
               <Grid item>
                 <Link href="/" variant="body2">
-                  {'เข้าสู่ระบบ'}
+                  {"เข้าสู่ระบบ"}
                 </Link>
               </Grid>
             </Grid>
@@ -203,5 +203,5 @@ export default function Register() {
         <ToastContainer />
       </Container>
     </ThemeProvider>
-  )
+  );
 }
